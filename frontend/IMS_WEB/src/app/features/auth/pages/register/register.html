@@ -1,0 +1,106 @@
+<div class="min-vh-100 d-flex justify-content-center align-items-center bg-light py-4 px-3">
+  <div class="card shadow-sm p-4" style="width: 400px">
+    <div class="text-center mb-3">
+      <h1 class="h3 fw-bold text-dark">User Login</h1>
+      <p class="text-muted small">Sign in with your registered email.</p>
+    </div>
+
+    <!-- Error -->
+    @if (errorMessage) {
+    <div class="alert alert-danger py-2 small">
+      {{ errorMessage }}
+    </div>
+    }
+
+    <!-- Success -->
+    @if (successMessage) {
+    <div class="alert alert-success py-2 small">
+      {{ successMessage }}
+    </div>
+    }
+
+    <form [formGroup]="userForm" (ngSubmit)="onUserRegister()">
+      <!-- Username -->
+      <div class="mb-3">
+        <label class="form-label small fw-semibold" for="username">Username</label>
+        <input
+          id="username"
+          formControlName="username"
+          type="text"
+          class="form-control form-control-sm"
+          placeholder="user2425"
+        />
+
+        @if (userForm.get('username')?.touched && userForm.get('username')?.invalid) {
+        <div class="text-danger small mt-1">Valid Username required.</div>
+        }
+      </div>
+      <div class="mb-3">
+        <label class="form-label small fw-semibold" for="fullname">Fullnme</label>
+        <input
+          id="fullname"
+          formControlName="fullname"
+          type="text"
+          class="form-control form-control-sm"
+          placeholder="joe doe"
+        />
+
+        @if (userForm.get('fullname')?.touched && userForm.get('fullname')?.invalid) {
+        <div class="text-danger small mt-1">Valid FullName required.</div>
+        }
+      </div>
+      <!-- Password -->
+      <div class="mb-3">
+        <label class="form-label small fw-semibold" for="userPassword">Password</label>
+
+        <div class="input-group input-group-sm">
+          <input
+            id="userPassword"
+            [type]="showUserPassword ? 'text' : 'password'"
+            class="form-control"
+            formControlName="password"
+            placeholder="••••••••"
+          />
+          <button
+            type="button"
+            (click)="showUserPassword = !showUserPassword"
+            class="btn btn-outline-secondary"
+          >
+            {{ showUserPassword ? 'Hide' : 'Show' }}
+          </button>
+        </div>
+      </div>
+      <!-- Role Dropdown -->
+      <div class="mb-3">
+        <label class="form-label small fw-semibold">Select Role</label>
+        <select formControlName="role" class="form-select form-select-sm">
+          <option value="">-- Select Role --</option>
+          <option value="Admin">Admin</option>
+          <option value="Owner">Owner</option>
+          <option value="Manager">Manager</option>
+        </select>
+
+        @if (userForm.get('role')?.touched && userForm.get('role')?.invalid) {
+        <div class="text-danger small mt-1">Role required</div>
+        }
+      </div>
+
+      <!-- Submit -->
+
+      <button
+        type="submit"
+        class="btn btn-primary w-100 d-flex justify-content-center align-items-center"
+        [disabled]="userForm.invalid || loading"
+      >
+        @if (!loading) { Sign in } @else {
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        Processing }
+      </button>
+
+      <hr />
+      <div class="text-center">
+        Already have an account? <a href="/Login"><span>Login</span></a>
+      </div>
+    </form>
+  </div>
+</div>

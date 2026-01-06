@@ -1,0 +1,33 @@
+/* Sidebar transitions */
+@media (max-width: 767.98px) {
+  .sidebar-section {
+    transition: left 0.3s ease;
+  }
+
+  .sidebar-overlay {
+    transition: opacity 0.3s ease;
+  }
+
+  body.sidebar-open {
+    overflow: hidden;
+  }
+}
+
+/* Table optimizations */
+@media (max-width: 576px) {
+  .table {
+    font-size: 0.875rem;
+  }
+}
+
+/* Modal responsiveness */
+@media (max-width: 576px) {
+  .modal .form-label {
+    font-size: 0.875rem;
+  }
+
+  .modal .form-control,
+  .modal .form-select {
+    font-size: 0.875rem;
+  }
+}

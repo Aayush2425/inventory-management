@@ -1,0 +1,79 @@
+<div class="min-vh-100 d-flex justify-content-center align-items-center bg-light py-4 px-3">
+  <div class="card shadow-sm p-4" style="width: 400px">
+    <div class="text-center mb-3">
+      <h1 class="h3 fw-bold text-dark">User Login</h1>
+      <p class="text-muted small">Sign in with your registered email.</p>
+    </div>
+
+    <form [formGroup]="userForm" (ngSubmit)="onUserLogin()">
+      <!-- Email -->
+      <div class="mb-3">
+        <label class="form-label small fw-semibold" for="username">Username</label>
+        <input
+          id="username"
+          formControlName="username"
+          type="text"
+          class="form-control form-control-sm"
+          placeholder="user2425"
+        />
+
+        @if (userForm.get('username')?.touched && userForm.get('username')?.invalid) {
+        <div class="text-danger small mt-1">Valid Username required.</div>
+        }
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3">
+        <label class="form-label small fw-semibold" for="userPassword">Password</label>
+
+        <div class="input-group input-group-sm">
+          <input
+            id="userPassword"
+            [type]="showUserPassword ? 'text' : 'password'"
+            class="form-control"
+            formControlName="password"
+            placeholder="••••••••"
+          />
+          <button
+            type="button"
+            (click)="showUserPassword = !showUserPassword"
+            class="btn btn-outline-secondary"
+          >
+            {{ showUserPassword ? 'Hide' : 'Show' }}
+          </button>
+        </div>
+
+        @if (userForm.get('password')?.touched && userForm.get('password')?.invalid) {
+        <div class="text-danger small mt-1">Password required (min 6).</div>
+        }
+      </div>
+
+      <!-- Options -->
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <label class="form-check-label small">
+          <input type="checkbox" formControlName="remember" class="form-check-input me-1" />
+          Remember me
+        </label>
+
+        <a href="#" class="small text-primary text-decoration-none">Forgot password?</a>
+      </div>
+
+      <!-- Submit -->
+
+      <button
+        type="submit"
+        class="btn btn-primary w-100 d-flex justify-content-center align-items-center"
+        [disabled]="userForm.invalid || loading"
+      >
+        @if (!loading) { Sign in } @else {
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        Processing }
+      </button>
+
+      <hr />
+      <div class="text-center">
+        Don't have an account? <a href="/Register"><span>Register</span></a>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,87 @@
+<div class="dashboard-container row g-0 h-100">
+  <!-- Sidebar -->
+  <section
+    class="sidebar-section col-3 h-100 justify-content-center d-flex flex-column border-end"
+    style="border-color: #e5e7eb"
+  >
+    <app-sidebar />
+  </section>
+
+  <!-- Main Content -->
+  <section class="main-content col h-100 overflow-auto">
+    <!-- Header -->
+    <div
+      class="header-section py-4 px-4"
+      style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)"
+    >
+      <h2 class="mb-0 text-white fw-bold">Welcome back, {{ owner_name }}</h2>
+      <p class="text-white-50 small mt-1">Here's an overview of your business reports</p>
+    </div>
+
+    <!-- Reports Grid -->
+    <div class="reports-container p-4">
+      <!-- Error State -->
+      @if (error) {
+      <div class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-circle me-2"></i>
+        {{ error }}
+      </div>
+      }
+
+      <!-- Loading State -->
+      @if (loading) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="text-muted mt-3">Loading reports...</p>
+      </div>
+      }
+
+      <!-- Reports Grid -->
+      @if (!loading && !error) {
+      <div class="row g-3">
+        @for (report of reports; track $index) {
+        <div class="col-md-6 col-lg-4">
+          <div
+            class="report-card bg-white rounded-4 p-3 h-100"
+            [style.border-left]="'4px solid ' + report.color"
+          >
+            <!-- Card Header -->
+            <div class="card-header-section mb-3">
+              <div class="d-flex justify-content-between align-items-start">
+                <div class="icon-wrapper" [style.background-color]="report.bgColor">
+                  <i [class]="'bi ' + report.icon" [style.color]="report.color"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Title -->
+            <h6 class="card-title text-muted small fw-semibold mb-2">{{ report.title }}</h6>
+
+            <!-- Card Value -->
+            <div class="value-section mb-3">
+              <h3 class="fw-bold mb-0">{{ report.value }}</h3>
+            </div>
+
+            <!-- Trend Info -->
+            <div class="trend-section d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center gap-2">
+                <span [class]="'fw-semibold ' + getTrendColor(report.trend)">
+                  <i [class]="'bi ' + getTrendDirection(report.trend)"></i>
+                  {{ report.trend >= 0 ? '+' : '' }}{{ report.trend }}%
+                </span>
+              </div>
+              <small class="text-muted">vs last month</small>
+            </div>
+
+            <!-- Description -->
+            <p class="description text-muted small mt-2 mb-0">{{ report.description }}</p>
+          </div>
+        </div>
+        }
+      </div>
+      }
+    </div>
+  </section>
+</div>

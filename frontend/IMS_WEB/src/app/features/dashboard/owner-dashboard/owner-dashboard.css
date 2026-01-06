@@ -1,0 +1,133 @@
+/* Dashboard Container */
+.dashboard-container {
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+/* Report Card */
+.report-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.report-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Icon Wrapper */
+.icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+/* Card Header Section */
+.card-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Card Title */
+.card-title {
+  color: #6b7280;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+/* Value Section */
+.value-section h3 {
+  color: #111827;
+  font-size: 1.75rem;
+  margin: 0;
+}
+
+/* Trend Section */
+.trend-section {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
+.text-success {
+  color: #10b981 !important;
+}
+
+.text-danger {
+  color: #ef4444 !important;
+}
+
+/* Description */
+.description {
+  line-height: 1.4;
+  color: #9ca3af;
+  font-size: 0.8125rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sidebar-section {
+    display: none;
+  }
+
+  .main-content {
+    width: 100%;
+  }
+
+  .reports-container {
+    padding: 16px;
+  }
+
+  .report-card {
+    padding: 16px;
+  }
+
+  .value-section h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.report-card {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Three dots button styling */
+.btn-link:hover {
+  opacity: 0.7;
+}
+
+/* Scrollbar styling */
+.main-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

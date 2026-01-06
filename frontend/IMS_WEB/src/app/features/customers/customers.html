@@ -1,0 +1,287 @@
+<div class="dashboard-container row g-0 h-100">
+  <!-- Sidebar Overlay (for mobile) -->
+  <div
+    class="sidebar-overlay d-md-none position-fixed top-0 start-0 w-100 h-100"
+    style="background: rgba(0, 0, 0, 0.5); z-index: 1040"
+    [style.display]="sidebarOpen() ? 'block' : 'none'"
+    (click)="sidebarOpen.set(false)"
+  ></div>
+
+  <!-- Sidebar -->
+  <section
+    class="sidebar-section col-md-3 h-auto h-md-100 justify-content-center d-flex flex-column border-end position-fixed position-md-relative"
+    style="
+      border-color: #e5e7eb;
+      z-index: 1045;
+      top: 0;
+      height: 100vh;
+      background: white;
+      transition: left 0.3s ease;
+    "
+    [style.width]="sidebarOpen() ? '100%' : ''"
+  >
+    <!-- Close button for mobile -->
+    <button
+      class="btn-close position-absolute top-0 end-0 m-3 d-md-none"
+      (click)="sidebarOpen.set(false)"
+      style="z-index: 1046"
+    ></button>
+
+    <app-sidebar />
+  </section>
+
+  <!-- Main Content -->
+  <section class="main-content col-12 col-md-9 ms-md-auto h-100 overflow-auto">
+    <!-- Header -->
+    <div
+      style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)"
+      class="d-flex flex-row justify-content-between align-items-center px-3 px-sm-4 px-md-5 py-3 py-md-4"
+    >
+      <div class="d-flex align-items-center gap-3 flex-grow-1">
+        <!-- Hamburger Menu (Mobile Only) -->
+        <button
+          class="btn btn-light d-md-none p-2"
+          (click)="sidebarOpen.set(true)"
+          style="z-index: 1"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+            />
+          </svg>
+        </button>
+
+        <section class="header-section">
+          <h2 class="mb-0 text-white fw-bold fs-5 fs-md-3">Customers</h2>
+          <p class="text-white-50 small mt-1 mb-0 d-none d-sm-block">Details of Customer</p>
+        </section>
+      </div>
+
+      <section>
+        <button class="btn btn-light btn-sm btn-md-md" (click)="openModal()">
+          <span class="d-none d-sm-inline">Add Customer</span>
+          <span class="d-sm-none">+ Add</span>
+        </button>
+      </section>
+    </div>
+
+    <div class="bg-white p-3 p-md-4 p-lg-5">
+      <!-- Search and Filter Section -->
+      <div class="d-flex flex-column flex-sm-row gap-2 mb-3 mb-md-4">
+        <input
+          type="text"
+          class="form-control form-control-sm form-control-md-md"
+          placeholder="Search customers..."
+          [ngModel]="searchTerm()"
+          (ngModelChange)="searchTerm.set($event)"
+        />
+
+        <select
+          class="form-select form-select-sm form-select-md-md w-sm-auto"
+          style="min-width: 150px"
+          [ngModel]="warehouseFilter()"
+          (ngModelChange)="warehouseFilter.set($event)"
+        >
+          <option value="">All Warehouses</option>
+          @for (warehouse of warehouses(); track warehouse.id) {
+          <option [value]="warehouse.name">{{ warehouse.name }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Table Section -->
+      <div class="table-responsive">
+        <table class="table table-hover table-sm table-md-md">
+          <thead class="table-light">
+            <tr>
+              <th scope="col" class="d-none d-md-table-cell">#</th>
+              <th scope="col">Name</th>
+              <th scope="col" class="d-none d-sm-table-cell">Email</th>
+              <th scope="col" class="d-none d-lg-table-cell">Phone Number</th>
+              <th scope="col" class="d-none d-xl-table-cell">Address</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (customer of customers(); track customer.id) {
+            <tr>
+              <th scope="row" class="d-none d-md-table-cell">{{ customer.id }}</th>
+              <td>
+                <div class="fw-semibold">{{ customer.name }}</div>
+                <!-- Show email on mobile when hidden in column -->
+                <small class="text-muted d-sm-none">{{ customer.email }}</small>
+              </td>
+              <td class="d-none d-sm-table-cell">{{ customer.email }}</td>
+              <td class="d-none d-lg-table-cell">{{ customer.phoneNumber }}</td>
+              <td class="d-none d-xl-table-cell">
+                <span class="d-inline-block text-truncate" style="max-width: 200px">
+                  {{ customer.address }}
+                </span>
+              </td>
+              <td>
+                <div class="d-flex gap-1 gap-md-2 flex-nowrap">
+                  <button class="btn btn-sm btn-primary" (click)="openModal(customer)" title="Edit">
+                    <span class="d-none d-md-inline">Edit</span>
+                    <span class="d-md-none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
+                        />
+                      </svg>
+                    </span>
+                  </button>
+                  <button
+                    class="btn btn-sm btn-danger"
+                    (click)="deleteCustomer(customer.id)"
+                    title="Delete"
+                  >
+                    <span class="d-none d-md-inline">Delete</span>
+                    <span class="d-md-none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                        />
+                      </svg>
+                    </span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="6" class="text-center text-muted py-4">
+                <div class="d-flex flex-column align-items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="48"
+                    height="48"
+                    fill="currentColor"
+                    class="text-muted opacity-50"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                    <path
+                      fill-rule="evenodd"
+                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
+                    />
+                  </svg>
+                  <span>No Customers found</span>
+                </div>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    @if (showModal()) {
+    <div
+      class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center p-2 p-md-3"
+      style="background: rgba(0, 0, 0, 0.6); z-index: 1050"
+    >
+      <div
+        class="bg-white rounded-4 shadow p-3 p-md-4"
+        style="width: 100%; max-width: 700px; max-height: 90vh; overflow-y: auto"
+      >
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-3 mb-md-4">
+          <h5 class="fw-bold mb-0 fs-6 fs-md-5">Add Customer</h5>
+          <button class="btn-close" (click)="closeModal()"></button>
+        </div>
+
+        <form class="row g-3" (submit)="saveCustomer()" [formGroup]="customerForm">
+          <!-- Customer Details -->
+          <h6 class="fw-semibold text-primary mb-2 fs-6">Customer Details</h6>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label small">Customer Name <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              placeholder="Enter customer name"
+              formControlName="name"
+            />
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label small">Email <span class="text-danger">*</span></label>
+            <input
+              type="email"
+              class="form-control form-control-sm"
+              placeholder="Enter email address"
+              formControlName="email"
+            />
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label small">Phone Number <span class="text-danger">*</span></label>
+            <input
+              type="tel"
+              class="form-control form-control-sm"
+              placeholder="Enter phone number"
+              formControlName="phoneNumber"
+            />
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label small">Warehouse <span class="text-danger">*</span></label>
+            <select class="form-select form-select-sm" formControlName="warehouseId">
+              <option value="">Select warehouse</option>
+              @for (warehouse of warehouses(); track warehouse.id) {
+              <option value="{{ warehouse.id }}">
+                {{ warehouse.name }}
+              </option>
+              }
+            </select>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label small">Address</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              placeholder="Enter customer address"
+              formControlName="address"
+            />
+          </div>
+
+          <!-- Action Buttons -->
+          <div
+            class="col-12 d-flex flex-column-reverse flex-sm-row gap-2 justify-content-end mt-3 mt-md-4"
+          >
+            <button class="btn btn-secondary w-100 w-sm-auto" type="button" (click)="closeModal()">
+              Cancel
+            </button>
+            <button class="btn btn-primary w-100 w-sm-auto" type="submit">Save Customer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    }
+  </section>
+</div>
