@@ -1,0 +1,21 @@
+# Node / Angular
+node_modules/
+dist/
+.angular/
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+
+# Environment files
+.env
+.env.*
+
+# Docker
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

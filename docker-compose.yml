@@ -1,0 +1,26 @@
+
+services:
+  backend:
+    build: ./backend/IMS_API
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=db;Database=IMS;User=sa;Password=YourStrong@Pass
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "IMSDB"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"

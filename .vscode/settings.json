@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/f7386a75-815b-4c61-9974-39bdfd06ad62/resourceGroups/ims-rg/providers/Microsoft.Web/sites/IMS",
+    "appService.deploySubpath": "backend\\IMS_API"
+}
