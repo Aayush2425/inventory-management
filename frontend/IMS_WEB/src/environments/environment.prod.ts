@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://imsbackend.azurewebsites.net/api',
+  apiBaseUrl: 'https://ims-backend-api.azurewebsites.net/api',
 };
